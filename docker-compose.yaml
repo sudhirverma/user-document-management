@@ -16,3 +16,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - ${APP_PORT}:${APP_PORT}
+volumes:
+  user-document-management-db:
