@@ -8,7 +8,7 @@ import type { User } from 'src/users/domain/user';
 import type { FilterUserDto, SortUserDto } from 'src/users/dto/query-user.dto';
 import type { IPaginationOptions } from 'src/utils/types/pagination-options';
 import type { NullableType } from 'src/utils/types/nullable.type';
-import { toDomain, toPersistence } from '../mappers/user.mapper';
+import { userToDomain, userToPersistence } from '../mappers/user.mapper';
 
 @Injectable() // Marks the class as a provider/service for dependency injection in NestJS
 export class UsersRelationalRepository implements UserRepository {
@@ -19,11 +19,11 @@ export class UsersRelationalRepository implements UserRepository {
 
   // Method to create a new User and save it to the database
   async create(data: User): Promise<User> {
-    const persistenceModel = toPersistence(data); // Convert domain model to persistence model
+    const persistenceModel = userToPersistence(data); // Convert domain model to persistence model
     const newEntity = await this.usersRepository.save(
       this.usersRepository.create(persistenceModel), // Save the new entity to the database
     );
-    return toDomain(newEntity); // Convert the saved entity back to domain model and return it
+    return userToDomain(newEntity); // Convert the saved entity back to domain model and return it
   }
 
   // Method to fetch multiple users with pagination, filtering, and sorting
@@ -59,7 +59,7 @@ export class UsersRelationalRepository implements UserRepository {
       ),
     });
 
-    return entities.map((user) => toDomain(user)); // Convert the fetched entities to domain models
+    return entities.map((user) => userToDomain(user)); // Convert the fetched entities to domain models
   }
 
   // Method to find a user by their ID
@@ -68,7 +68,7 @@ export class UsersRelationalRepository implements UserRepository {
       where: { id: Number(id) }, // Find user with matching ID
     });
 
-    return entity ? toDomain(entity) : null; // Return the domain model if found, or null if not
+    return entity ? userToDomain(entity) : null; // Return the domain model if found, or null if not
   }
 
   // Method to find multiple users by their IDs
@@ -77,7 +77,7 @@ export class UsersRelationalRepository implements UserRepository {
       where: { id: In(ids) }, // Find users where ID is in the provided list of IDs
     });
 
-    return entities.map((user) => toDomain(user)); // Convert the fetched entities to domain models
+    return entities.map((user) => userToDomain(user)); // Convert the fetched entities to domain models
   }
 
   // Method to find a user by their email
@@ -88,7 +88,7 @@ export class UsersRelationalRepository implements UserRepository {
       where: { email }, // Find user with the provided email
     });
 
-    return entity ? toDomain(entity) : null; // Return the domain model if found, or null if not
+    return entity ? userToDomain(entity) : null; // Return the domain model if found, or null if not
   }
 
   // Method to update an existing user's data
@@ -103,14 +103,14 @@ export class UsersRelationalRepository implements UserRepository {
 
     const updatedEntity = await this.usersRepository.save(
       this.usersRepository.create(
-        toPersistence({
-          ...toDomain(entity), // Convert the existing entity to domain model
+        userToPersistence({
+          ...userToDomain(entity), // Convert the existing entity to domain model
           ...payload, // Merge the existing data with the updated payload
         }),
       ),
     );
 
-    return toDomain(updatedEntity); // Convert the updated entity back to the domain model and return it
+    return userToDomain(updatedEntity); // Convert the updated entity back to the domain model and return it
   }
 
   // Method to soft delete a user by their ID

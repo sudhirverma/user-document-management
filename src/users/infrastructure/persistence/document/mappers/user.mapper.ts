@@ -5,7 +5,7 @@ import { Status } from '../../../../../statuses/domain/status';
 import { RoleSchema } from '../../../../../roles/infrastructure/persistence/document/entities/role.schema';
 import { StatusSchema } from '../../../../../statuses/infrastructure/persistence/document/entities/status.schema';
 
-export function toDomain(raw: UserSchemaClass): User {
+export function userToDomain(raw: UserSchemaClass): User {
   const domainEntity = new User();
   domainEntity.id = raw._id.toString();
   domainEntity.email = raw.email;
@@ -31,7 +31,7 @@ export function toDomain(raw: UserSchemaClass): User {
   return domainEntity;
 }
 
-export function toPersistence(domainEntity: User): UserSchemaClass {
+export function userToPersistence(domainEntity: User): UserSchemaClass {
   let role: RoleSchema | undefined = undefined;
 
   if (domainEntity.role) {

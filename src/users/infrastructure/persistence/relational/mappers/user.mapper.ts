@@ -3,7 +3,7 @@ import { StatusEntity } from '../../../../../statuses/infrastructure/persistence
 import { User } from '../../../../domain/user';
 import { UserEntity } from '../entities/user.entity';
 
-export function toDomain(raw: UserEntity): User {
+export function userToDomain(raw: UserEntity): User {
   const domainEntity = new User();
   domainEntity.id = raw.id;
   domainEntity.email = raw.email;
@@ -19,7 +19,7 @@ export function toDomain(raw: UserEntity): User {
   return domainEntity;
 }
 
-export function toPersistence(domainEntity: User): UserEntity {
+export function userToPersistence(domainEntity: User): UserEntity {
   let role: RoleEntity | undefined = undefined;
 
   if (domainEntity.role) {
