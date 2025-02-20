@@ -21,6 +21,3 @@ docker-compose up --build
 ### Swagger Documentation
 Swagger API documentation is available at:
 [http://localhost:3000/docs](http://localhost:3000/docs)
-
-## License
-This project is licensed under the MIT License.
