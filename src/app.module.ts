@@ -9,6 +9,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './database/mongoose-config.service';
 import type { DatabaseConfig } from './database/config/database-config.type';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import authConfig from './auth/config/auth.config';
 
 // <database-block>
 const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
@@ -28,11 +30,12 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, appConfig],
+      load: [databaseConfig, authConfig, appConfig],
       envFilePath: ['.env'],
     }),
     infrastructureDatabaseModule,
     UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
